@@ -19,4 +19,42 @@
 
 \begin{document}
 \maketitle    
-\end{document}
+
+\section*{Question 1.1} % (fold)
+\label{sec:question_1_1}
+
+
+A flow network $G = (V,E)$ is a \emph{directed} graph in which each edge $(u,v) \in E$ has a nonnegative capacity $c(u,v)\geq 0$ 0. We further require that if $E$ contains an edge $(u,v)$, then there is no edge $(v,u)$ in the reverse direction\cite{Cormen}.
+
+The supplied graph $G$ is not a flow network, since it doesn't comply with the definition of a flow network since it is undirected. 
+
+% section question_1_1 (end)
+
+\section*{Question 1.2} % (fold)
+\label{sec:question_1_2}
+
+In the following we assume that the given capacity of each street segment is the capacity in each direction of the street. 
+
+In order to convert $G$ into a flow network we need to replace all existing edges by two `lanes'. For each edge going between the vertices $u$ and $v$ and having the capacity $c$ we define a new vertex $w$. Furthermore we define two directed edges $(u,w)$ and $(w,v)$, both with capacity $c$. We also introduce $(v,u)$ as a directed edge with capacity $c$. The result is a directed graph $G'$ that is a flow network with vertices $0-6$ being sources and vertices $26-29$ being sink. 
+% section question_1_2 (end)
+
+
+\section*{Question 1.3} % (fold)
+\label{sec:question_1_3}
+
+% section question_1_3 (end)
+
+
+\section*{Question 1.4} % (fold)
+\label{sec:question_1_4}
+
+% section question_1_4 (end)
+
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
+
+\end{document}                      
+
+
+
