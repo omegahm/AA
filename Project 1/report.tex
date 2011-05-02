@@ -1,20 +1,14 @@
-%
-%  Created by Kasper Nybo Hansen on 2011-04-28.
-%  Copyright (c) 2011 Kasper Nybo Hansen. All rights reserved.
-%
-%
 \documentclass[10pt]{article}
 
 \RequirePackage{nybohansenPreamble}
 
-\newcommand{\authorName}{Mads Ohm Larsen \& Kasper Nybo Hansen}
+\newcommand{\authorName}{Mads Ohm Larsen and Kasper Nybo Hansen}
 \newcommand{\authorEmail}{\{omega, nybo\}@diku.dk}
 \newcommand{\titleName}{Project 1}
 \newcommand{\courseName}{Advanced Algorithms 2011}
 
 \author{\authorName \\\texttt{\small{\authorEmail}}}
 \title{\textsc{\titleName \\ \courseName}}
-% \date{}
 \makeindex
 
 \begin{document}
@@ -23,8 +17,7 @@
 \section*{Question 1.1} % (fold)
 \label{sec:question_1_1}
 
-
-A flow network $G = (V,E)$ is a \emph{directed} graph in which each edge $(u,v) \in E$ has a nonnegative capacity $c(u,v)\geq 0$ 0. We further require that if $E$ contains an edge $(u,v)$, then there is no edge $(v,u)$ in the reverse direction\cite{Cormen}.
+A flow network $G = (V,E)$ is a \emph{directed} graph in which each edge $(u,v) \in E$ has a non-negative capacity $c(u,v)\geq 0$. We further require that if $E$ contains an edge $(u,v)$, then there is no edge, $(v,u)$, in the reverse direction\cite{Cormen}.
 
 The supplied graph $G$ is not a flow network, since it doesn't comply with the definition of a flow network since it is undirected. 
 
@@ -35,20 +28,74 @@ The supplied graph $G$ is not a flow network, since it doesn't comply with the d
 
 In the following we assume that the given capacity of each street segment is the capacity in each direction of the street. 
 
-In order to convert $G$ into a flow network we need to replace all existing edges by two `lanes'. For each edge going between the vertices $u$ and $v$ and having the capacity $c$ we define a new vertex $w$. Furthermore we define two directed edges $(u,w)$ and $(w,v)$, both with capacity $c$. We also introduce $(v,u)$ as a directed edge with capacity $c$. The result is a directed graph $G'$ that is a flow network with vertices $0-6$ being sources and vertices $26-29$ being sink. 
-% section question_1_2 (end)
+In order to convert $G$ into a flow network we need to replace all existing edges by two ``lanes''. For each edge going between the vertices $u$ and $v$, and having the capacity $c$, we define a new vertex $w$. Furthermore we define two directed edges $(v,w)$ and $(w,u)$, both with capacity $c$. We also introduce $(u,v)$ as a directed edge with capacity $c$. The result is a directed graph $G'$, that is a flow network with vertices $0-6$ being sources and vertices $26-29$ being sink.
 
+To solve the problem with the Ford-Fulkerson method, one could insert a super-source $s$ and a super-sink $t$, where $s$ is connected to the vertices $0-6$ with $c = \infty$, as well as $t$ being connected with vertices $26-29$, with $c = \infty$.
+% section question_1_2 (end)
 
 \section*{Question 1.3} % (fold)
 \label{sec:question_1_3}
+In order to compute the maximum numbers of cars that can enter the city per minutes using an LP-solver, we first need to state the problem as a LP-problem rather than a max flow.
 
+We can reformulate the problem, to the following
+\begin{equation}
+	\text{max} \sum_{e=(s,u) \in E} x_e \text{s.t.} \left\{
+	\begin{array}{l l}
+		\forall v \in V\backslash\{s,t\} & \quad \sum_{e=(u,v) \in E} x_e = \sum_{e=(v,w) \in E} x_e \\
+		\forall e \in E & \quad 0 < x_e \leq c_e
+	\end{array} \right.
+\end{equation}
+where $G = (V, E)$ is a graph, and $s$ and $t$ are source and sink respectively.
 % section question_1_3 (end)
-
 
 \section*{Question 1.4} % (fold)
 \label{sec:question_1_4}
+The edges closest to the sinks all have $c(u,t) = 30$ for all $u,t$, where $t \in \{26, 27, 28, 29\}$ is a sink vertex and $u \in \{7, 20, 21, 22, 23, 24, 25\}$. 
+Intuitively one of these edges would have to have their capacity increased in order for the total amount of cars to be increased.
 
 % section question_1_4 (end)
+
+\section*{Question 2.1} % (fold)
+\label{sec:question_2_1}
+With capacity constrains on the intersections, one would assume that this would be a much harder problem.
+However, in order to solve this, all we need to do is remove all outgoing edges from a vertex $u$, and adding a new vertex $v$, with all the removed edges from vertex $u$.
+We then add a single edge $(u,v)$ with $c(u, v) = c(u)$.
+% section question_2_1 (end)
+
+\section*{Question 2.2} % (fold)
+\label{sec:question_2_2}
+
+% section question_2_2 (end)
+
+\section*{Question 2.3} % (fold)
+\label{sec:question_2_3}
+
+% section question_2_3 (end)
+
+\section*{Question 2.4} % (fold)
+\label{sec:question_2_4}
+
+% section question_2_4 (end)
+
+\section*{Question 3.1} % (fold)
+\label{sec:question_3_1}
+
+% section question_3_1 (end)
+
+\section*{Question 3.2} % (fold)
+\label{sec:question_3_2}
+
+% section question_3_2 (end)
+
+\section*{Question 3.3} % (fold)
+\label{sec:question_3_3}
+
+% section question_3_3 (end)
+
+\section*{Question 3.4} % (fold)
+\label{sec:question_3_4}
+
+% section question_3_4 (end)
 
 
 \bibliographystyle{abbrv}
