@@ -43,9 +43,12 @@ We can reformulate the problem, to the following
 	\begin{array}{l l}
 		\forall v \in V\backslash\{s,t\} & \quad \sum_{e=(u,v) \in E} x_e = \sum_{e=(v,w) \in E} x_e \\
 		\forall e \in E & \quad 0 < x_e \leq c_e
-	\end{array} \right.
+	\end{array} \right. \label{LP}
 \end{equation}
 where $G = (V, E)$ is a graph, and $s$ and $t$ are source and sink respectively.
+
+% TODO We still need a number of cars. This should be accomplished by implementing the problem in pulp
+
 % section question_1_3 (end)
 
 \section*{Question 1.4} % (fold)
@@ -64,7 +67,13 @@ We then add a single edge $(u,v)$ with $c(u, v) = c(u)$.
 
 \section*{Question 2.2} % (fold)
 \label{sec:question_2_2}
+To accommodate for the capacity constrains on the vertices in \eqref{LP}, we need a constrain on the them.
+This can be formulated as the sum of the weights of ingoing edges must not be greater than the capacity of the vertex.
 
+The following constrain should be added to \eqref{LP}
+\begin{equation}
+	\forall v \in V \quad \sum_{e=(u,v)} x_e \leq c_v
+\end{equation} 
 % section question_2_2 (end)
 
 \section*{Question 2.3} % (fold)

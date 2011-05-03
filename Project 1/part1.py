@@ -45,3 +45,5 @@ print "Status:", LpStatus[prob.status]
 
 for variable in prob.variables():
     print variable.name, "=", variable.varValue
+    
+print "Maximum number of cars to enter the city center", value(prob.objective)
