@@ -12,6 +12,37 @@ SOURCES = [0,1,2,3,4,5,6] # The sources
 SINKS   = [26,27,28,29] # The sinks
 INF     = 10**6 # Infinite
 
+constrains = { 0: 150,
+               1: 150,
+               2: 150,
+               3: 150,
+               4: 150,
+               5:  30,
+               6: 150,
+               7: 150,
+               8: 150,
+               9: 150,
+              10: 100,
+              11: 100,
+              12: 100,
+              13: 100,
+              14: 100,
+              15: 100,
+              16: 100,
+              17:  30,
+              18: 150,
+              19:  30,
+              20:  30,
+              21:  30,
+              22:  30,
+              23:  30,
+              24:  30,
+              25:  30,
+              26: INF,
+              27: INF,
+              28: INF,
+              29: INF }
+
 extra = SINKS[-1]+1
 
 # We need to have all the ingoing and all the outgoing edges
@@ -26,6 +57,7 @@ for e in graph['edgelist']:
     in_edges[e['v']]  = []
     out_edges[extra]  = []
     in_edges[extra]   = []
+    constrains[extra] = 0
     extra += 1
     
 extra = SINKS[-1]+1
@@ -75,7 +107,8 @@ for e in graph['edgelist']:
         out_edges[extra].append(tmp)
         in_edges['supersink'].append(tmp)
         t.append(extra)
-    
+
+    constrains[extra] = INF
     extra += 1
 
 # Objective function
@@ -84,6 +117,10 @@ prob += lpSum(out_edges['supersource']), "Maximum number of cars"
 # For each v in V \ {s,t} | Sum_{e=(u,v) \in E}(x_e) = Sum_{e=(v,w) \in E}(x_e)
 for n in range(0, extra):
     prob += lpSum(in_edges[n]) == lpSum(out_edges[n]), "Input needs to equal output " + str(n)
+
+# For each v in V | Sum_{e=(u,v)} x_e <= c_v
+for n in range(0, extra):
+    prob += lpSum(in_edges[n]) <= constrains[n]
 
 prob.writeLP("CopenhagenGraph.lp")
 #print prob
