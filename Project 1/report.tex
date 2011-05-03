@@ -63,6 +63,21 @@ Intuitively one of these edges would have to have their capacity increased in or
 With capacity constrains on the intersections, one would assume that this would be a much harder problem.
 However, in order to solve this, all we need to do is remove all outgoing edges from a vertex $u$, and adding a new vertex $v$, with all the removed edges from vertex $u$.
 We then add a single edge $(u,v)$ with $c(u, v) = c(u)$.
+
+A illustration of this approach can be seen on figure \ref{fig1}.
+
+
+\begin{figure}[ht]
+\centering
+\mbox{
+    \subfigure[Graph with capacity constraints on the vertices]{\label{sfig1}\includegraphics[width=0.4\textwidth]{figures/fig1.pdf}} \quad
+    \subfigure[Graph shown in figure \ref{sfig1} transformed so the capacity constraints of the vertices are moved to the edges.]{\label{sfig2}\includegraphics[width=0.5\textwidth]{figures/fig2.pdf}}
+}                    
+\caption{For each vertex the transformation shown in figure \ref{sfig1} and \ref{sfig2} is performed, yielding a transformed graph, whre the vertices constraints are transformed into edge constraints.}
+\label{fig1}
+\end{figure}
+
+
 % section question_2_1 (end)
 
 \section*{Question 2.2} % (fold)
@@ -72,7 +87,7 @@ This can be formulated as the sum of the weights of ingoing edges must not be gr
 
 The following constrain should be added to \eqref{LP}
 \begin{equation}
-	\forall v \in V \quad \sum_{e=(u,v)} x_e \leq c_v
+	\sum_{e=(u,v)} x_e \leq c_v \qquad \forall v \in V \quad 
 \end{equation} 
 % section question_2_2 (end)
 
@@ -86,19 +101,42 @@ The following constrain should be added to \eqref{LP}
 
 % section question_2_4 (end)
 
+
+
 \section*{Question 3.1} % (fold)
 \label{sec:question_3_1}
+In the following questions we assume that $G = (V,E)$ is a network, but not a flow network, with capacity constraints on the intersections $V$. Furthermore we assume that $G' = (V',E')$ is a flow network obtained by modifying $G$ as 
+
+A flow in $G$ is a real-valued function $f: V \times V \leftarrow \R$ that satisfies the \emph{capacity constraint} defined as
+\begin{equation}
+ 0 \leq f(u,v) \leq c(u,v) \qquad  \forall u,v \in V
+\end{equation}
+and the \emph{flow conservation property}
+\begin{equation}
+\sum_{v \in V} f(v,u) = \sum_{v \in V} f(u,v)  \qquad \forall u \in V \setminus \{s,t\}
+\end{equation}
+A flow has a value defined by
+\begin{equation}
+ |f| = \sum_{v \in V} f(s,v) - \sum_{v \in V} f(v,s)
+\end{equation}
+
+these properties can be extended so they take intersection-capacities into account by adding a third capacity constraint called the \emph{intersection capacity constraint}. This constraint insures that the maximum flow going into a vertex $u$ is bounded by $c(v)$
+\begin{equation}
+\sum_{v \in V} f(v,u) \leq c(u) 
+\end{equation}
+This modification does not affect the flow conservation property or the value, $|f|$, of the flow.
+
 
 % section question_3_1 (end)
 
 \section*{Question 3.2} % (fold)
 \label{sec:question_3_2}
-
+Let $f: V \times V \rightarrow \R$ be a flow in $G$. We can then define the equivalent flow $f': V' \times V' \rightarrow \R$ in $G'$ as
 % section question_3_2 (end)
 
 \section*{Question 3.3} % (fold)
 \label{sec:question_3_3}
-
+Prove that f' is a flow. That is, given a flow f in G (with capacities on intersections), you convert it to a flow f' in G' (without capacities on intersections) in Question 3.2. The objective of Question 3.3 is then to prove that f' is indeed a flow according to the definitions in the book.
 % section question_3_3 (end)
 
 \section*{Question 3.4} % (fold)
