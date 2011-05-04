@@ -92,6 +92,7 @@ status = prob.solve(GLPK(msg = 0))
 print "Status:", LpStatus[prob.status]
 
 for variable in prob.variables():
-    print variable.name, "=", variable.varValue
+    if(variable.varValue != 0.0):
+        print variable.name, "=", variable.varValue
     
 print "Maximum number of cars to enter the city center", value(prob.objective)
