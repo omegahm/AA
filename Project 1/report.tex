@@ -99,9 +99,6 @@ Modifying the graph has the advantage that ...
 \section*{Question 2.4} % (fold)
 \label{sec:question_2_4}
 
-
-
-230
 % section question_2_4 (end)
 
 
@@ -134,11 +131,16 @@ This modification does not affect the flow conservation property nor the value, 
 \section*{Question 3.2} % (fold)
 \label{sec:question_3_2}
 Let $f: V \times V \rightarrow \R$ be a flow in $G$. $f$ is thus a flow that meets the requirements in the previous question where the vertices has the capacity constraints. We can then define the equivalent flow $f': V' \times V' \rightarrow \R$ in $G'$ as follows. 
-\begin{equation}
-  f'(v) = 
-  f'(v,u) = f(v) \forall v \in V
-\end{equation}
 
+\begin{equation} 
+f'(v',u') = 
+\left\{
+\begin{array}{rl} 
+  a & a \\
+  0 & v \notin  f 
+\end{array} 
+\right. \qquad \forall v \in V
+\end{equation} 
 % section question_3_2 (end)
 
 \section*{Question 3.3} % (fold)
