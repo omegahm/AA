@@ -92,7 +92,7 @@ A illustration of this approach can be seen on figure \ref{fig1}.
 To accommodate for the capacity constrains on the vertices in \eqref{LP}, we need a constraint on the them.
 This can be formulated as the sum of the weights of ingoing edges must not be greater than the capacity of the vertex.
 
-The following constrain should be added to \eqref{LP}
+The following constraint should be added to \eqref{LP}
 \begin{equation}
 	\sum_{e=(u,v)} x_e \leq c_v \qquad \forall v \in V \quad 
 \end{equation} 
@@ -105,8 +105,8 @@ Modifying the graph has the advantage that ...
 
 \section*{Question 2.4} % (fold)
 \label{sec:question_2_4}
-As described in Question 2.2, we add an extra constrain to each vertex.
-This is easily done in Python, using the \textsc{pulp} library, where we just add this extra constrain to the problem.
+As described in Question 2.2, we add an extra constraint to each vertex.
+This is easily done in Python, using the \textsc{pulp} library, where we just add this extra constraint to the problem.
 
 Running our implementation, it tells us that now only $210$ cars can enter the city center.
 A maximum solution is in the appendix.
@@ -143,23 +143,39 @@ This modification does not affect the flow conservation property nor the value, 
 Let $f: V \times V \rightarrow \R$ be a flow in $G$. $f$ is thus a flow that meets the requirements in the previous question where the vertices has the capacity constraints. We can then define the equivalent flow $f': V' \times V' \rightarrow \R$ in $G'$ as follows. 
 
 \begin{equation} 
-f'(v',u') = 
+f'(u',v') = 
 \left\{
-\begin{array}{rl} 
-  a & a \\
-  b & b \\
-  0 & v \notin  f 
+\begin{array}{ll} 
+  f(u', v') & \text{if } (u', v') \in V \times V \\
+  \min\left(\sum_{w \in V} f(w, u'), c(u')\right) & \text{if } v' \notin V \\
+  f(w,v') & \text{if } u' \notin V
 \end{array} 
-\right. \qquad \forall u,v \in V
+\right. \label{flow}
 \end{equation} 
+
+In the last branch, $w$ is vertex which has $f'(w, u') > 0$.
+There will only be one such vertex, as $u'$ was copied from $w$ in $G'$.
 % section question_3_2 (end)
 
 \section*{Question 3.3} % (fold)
 \label{sec:question_3_3}
-Prove that f' is a flow. That is, given a flow f in G (with capacities on intersections), you convert it to a flow f' in G' (without capacities on intersections) in Question 3.2. The objective of Question 3.3 is then to prove that f' is indeed a flow according to the definitions in the book.
+In order to prove that $f'$ is a flow, we need to prove that $f'$ obeys the capacity constraint  and the flow conservation property. 
+In Question 3.2 we transformed the capacities of the intersections to capacities on the edges. 
 
-In order to prove that $f'$ is a flow, we need to prove that $f'$ obeys the capacity constraint and the conservation property. In question 3.2 we transformed the capacities of the intersections to capacities on the edges. 
+We now look at each of the three cases in \eqref{flow} and proves that the capacity constraint holds for each of them.
+The first is trivial, as $f$ is a flow, and $0 \leq f(u', v') \leq c(u', v')$.
+For the second case, we only need to realize that $c(u', v') = c(u')$.
+As the sum can never be negative, because $f$ is a flow, $f'(u',v')$ is bound by $0$ and $c(u')$ for this case.
+The third and last case is as trivial as the first, because $f$ is yet again a flow and both $w$ and $v'$ is in $V$.
 
+We now need to prove that $f'$ obeys the flow conservation property.
+That is $\sum_{v \in V'} f'(v,u) = \sum_{v \in V'} f'(u,v)$ for all $u \in V' \setminus \{s,t\}$.
+If $u \in V$, then $\sum_{v \in V'} f'(v, u) = \sum_{v \in V} f(v, u)$.
+By our definition $\sum_{v \in V'} f'(u, v) = \sum_{v \in V} f(w, v)$, where $w$ is the vertex from which $u$ is copied, thereby giving us $\sum_{v \in V} f(w, v) = \sum_{v \in V} f(u, v)$ and the conservation property is obeyed.
+
+If $u \notin V$, then $\sum_{v \in V'} f'(v, u) = \sum_{v \in V} f(v, w)$, where $w$ is the vertex from which $u$ is copied.
+By out definition, $\sum_{v \in V'} f'(u, v) = \sum_{v \in V} f(w, v)$.
+As $\sum_{v \in V} f(w, v) = \sum_{v \in V} f(v, w)$, the conservation property is obeyed.
 % section question_3_3 (end)
 
 \section*{Question 3.4} % (fold)
@@ -170,8 +186,13 @@ The flow value is defined as
 \end{equation}
 Thus we need to show
 \begin{equation}
-  \sum_{v' \in V'} f'(s,v') - \sum_{v' \in V'} f'(v',s) =   \sum_{v \in V} f(s,v) - \sum_{v \in V} f(v,s)
+  \sum_{v' \in V'} f'(s,v') - \sum_{v' \in V'} f'(v',s) =   \sum_{v \in V} f(s,v) - \sum_{v \in V} f(v,s) \label{fc}
 \end{equation}
+
+As $s \in V$ we know that $\sum_{v' \in V'} f'(v', s) = \sum_{v \in V} f(v, s)$.
+We also know that $\sum_{v' \in V'} f'(w, v') = \sum_{v \in V} f(s, v)$, where $w$ is the copy of $s \in V$.
+From our definition everything that leaves $w$ is everything that leaves $s$, that is $\sum_{v' \in V'} f'(w, v') = \sum_{v' \in V} f'(s, v')$.
+Therefore \eqref{fc} is valid and $|f| = |f'|$.
 
 % Since the flow conservation property is unchanged the following is true
 % \begin{equation}
