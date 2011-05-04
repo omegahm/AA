@@ -39,7 +39,7 @@ In order to compute the maximum numbers of cars that can enter the city per minu
 
 We can reformulate the problem, to the following
 \begin{equation}
-	\text{max} \sum_{e=(s,u) \in E} x_e \text{s.t.} \left\{
+	\text{max} \sum_{e=(s,u) \in E} x_e \quad \text{s.t.} \quad \left\{
 	\begin{array}{l l}
 		\forall v \in V\backslash\{s,t\} & \quad \sum_{e=(u,v) \in E} x_e = \sum_{e=(v,w) \in E} x_e \\
 		\forall e \in E & \quad 0 < x_e \leq c_e
@@ -47,7 +47,15 @@ We can reformulate the problem, to the following
 \end{equation}
 where $G = (V, E)$ is a graph, and $s$ and $t$ are source and sink respectively.
 
-% TODO We still need a number of cars. This should be accomplished by implementing the problem in pulp
+We have implemented this LP-problem using the Python library \textsc{pulp}\footnote{\url{http://code.google.com/p/pulp-or/}}.
+Given the undirected graph $G$, we add all the extra vertices, needed for it to be a directed flow network.
+We also add a super-source and a super-sink as described in Question 1.2 above.
+All the constrains from \eqref{LP} is also implemented.
+The maximum number of cars that can enter the city per minute is then the number of cars leaving the super-source or, equivalent, the number of cars entering the super-sink.
+
+When running our implementation, it report precisely which edges are being used, and how many cars enter each edge per minute.
+A maximum solution is in the appendix.
+This gives a total of $240$ cars entering the center of Copenhagen per minute. 
 
 % section question_1_3 (end)
 
@@ -65,7 +73,6 @@ However, in order to solve this, all we need to do is remove all outgoing edges 
 We then add a single edge $(u,v)$ with $c(u, v) = c(u)$.
 
 A illustration of this approach can be seen on figure \ref{fig1}.
-
 
 \begin{figure}[ht]
 \centering
@@ -98,16 +105,19 @@ Modifying the graph has the advantage that ...
 
 \section*{Question 2.4} % (fold)
 \label{sec:question_2_4}
+As described in Question 2.2, we add an extra constrain to each vertex.
+This is easily done in Python, using the \textsc{pulp} library, where we just add this extra constrain to the problem.
+
+Running our implementation, it tells us that now only $210$ cars can enter the city center.
+A maximum solution is in the appendix.
 
 % section question_2_4 (end)
-
-
 
 \section*{Question 3.1} % (fold)
 \label{sec:question_3_1}
 In the following questions we assume that $G = (V,E)$ is a network, but not a flow network, with capacity constraints on the intersections $V$. Furthermore we assume that $G' = (V',E')$ is a flow network obtained by modifying $G$ as 
 
-A flow in $G$ is a real-valued function $f: V \times V \leftarrow \R$ that satisfies the \emph{capacity constraint} defined as
+A flow in $G$ is a real-valued function $f: V \times V \rightarrow \R$ that satisfies the \emph{capacity constraint} defined as
 \begin{equation}
  0 \leq f(u,v) \leq c(u,v) \qquad  \forall u,v \in V
 \end{equation}
@@ -120,7 +130,7 @@ A flow has a value defined by
  |f| = \sum_{v \in V} f(s,v) - \sum_{v \in V} f(v,s)
 \end{equation}
 
-these properties can be extended so they take intersection-capacities into account by adding a third capacity constraint called the \emph{intersection capacity constraint}. This constraint insures that the maximum flow going into a vertex $u$ is bounded by $c(v)$
+these properties can be extended so they take intersection-capacities into account by adding a third capacity constraint called the \emph{intersection capacity constraint}. This constraint insures that the maximum flow going into a vertex $u$ is bounded by $c(u)$
 \begin{equation}
 \sum_{v \in V} f(v,u) \leq c(u) 
 \end{equation}
@@ -171,6 +181,92 @@ Thus we need to show
 
 
 % section question_3_4 (end)
+
+\appendix
+\section{Output from Question 1.3} % (fold)
+\label{sec:output_from_question_1_3}
+\lstset{language=Python, basicstyle=\footnotesize, numbers=left, stepnumber=2, numberstyle=\tiny, frameround=tttt, frame=tlBR, captionpos=b}
+\begin{lstlisting}
+Status: Optimal
+supersource_(s,1) = 30.0
+original_(1,9) = 30.0
+supersource_(s,2) = 30.0
+original_(2,15) = 30.0
+supersource_(s,4) = 60.0
+original_(4,18) = 60.0
+original_(5,17) = 30.0
+supersource_(s,5) = 30.0
+original_(6,7) = 90.0
+supersource_(s,6) = 90.0
+original_(7,10) = 30.0
+original_(7,25) = 30.0
+original_(7,28) = 30.0
+supersink_(28,t) = 60.0
+original_(9,14) = 30.0
+original_(10,21) = 30.0
+original_(13,20) = 30.0
+extra1_(13,14) = 30.0
+extra2_(13,14) = 30.0
+original_(15,19) = 30.0
+original_(17,24) = 30.0
+original_(18,23) = 60.0
+original_(19,22) = 30.0
+original_(20,27) = 30.0
+supersink_(27,t) = 60.0
+original_(21,26) = 30.0
+supersink_(26,t) = 60.0
+extra1_(22,23) = 30.0
+extra2_(22,23) = 30.0
+original_(22,27) = 30.0
+original_(22,28) = 30.0
+original_(23,29) = 30.0
+supersink_(29,t) = 60.0
+original_(24,29) = 30.0
+original_(25,26) = 30.0
+Maximum number of cars to enter the city center 240.0
+\end{lstlisting}
+% section output_from_question_1_3 (end)
+
+\section{Output from Question 2.4} % (fold)
+\label{sec:output_from_question_2_4}
+\begin{lstlisting}
+Status: Optimal
+supersource_(s,1) = 30.0
+original_(1,9) = 30.0
+supersource_(s,2) = 30.0
+original_(2,15) = 30.0
+supersource_(s,4) = 30.0
+original_(4,18) = 30.0
+original_(5,17) = 30.0
+supersource_(s,5) = 30.0
+original_(6,7) = 90.0
+supersource_(s,6) = 90.0
+original_(7,10) = 30.0
+original_(7,25) = 30.0
+original_(7,28) = 30.0
+supersink_(28,t) = 60.0
+original_(9,14) = 30.0
+original_(10,21) = 30.0
+original_(13,20) = 30.0
+extra1_(13,14) = 30.0
+extra2_(13,14) = 30.0
+original_(15,19) = 30.0
+original_(17,24) = 30.0
+original_(18,23) = 30.0
+original_(19,22) = 30.0
+original_(20,27) = 30.0
+supersink_(27,t) = 30.0
+original_(21,26) = 30.0
+supersink_(26,t) = 60.0
+original_(22,28) = 30.0
+original_(23,29) = 30.0
+supersink_(29,t) = 60.0
+original_(24,29) = 30.0
+original_(25,26) = 30.0
+Maximum number of cars to enter the city center 210.0
+\end{lstlisting}
+% section output_from_question_2_4 (end)
+
 
 
 \bibliographystyle{abbrv}
