@@ -1,0 +1,17 @@
+*.idx
+*.out
+*.lp
+*.aux
+*.bbl
+*.blg
+*.fdb_latex
+*.fdb_latexmk
+*.pdf
+*.ini
+*.log
+*.gz
+*.fls
+*.fmt
+*.watcher_pid
+.*.*
+!*/figures/*.pdf

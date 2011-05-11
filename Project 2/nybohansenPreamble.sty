@@ -1,0 +1,106 @@
+\ProvidesPackage{nybohansenPreamble}
+\usepackage[utf8]{inputenc}
+\usepackage[danish, english]{babel}
+\usepackage[T1]{fontenc}
+
+% Alter some LaTeX defaults for better treatment of figures:
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+                       
+% Nice sourcecode package
+% E.g \lstset{language=C, basicstyle=\footnotesize, numbers=left, stepnumber=2, numberstyle=\tiny, frameround=tttt, frame=tlBR, captionpos=b}
+\usepackage{listings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                     F A N C Y H E A D E R                                    %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}  
+\pagestyle{fancy}
+\fancyhead[LE,RO]{\leftmark} 
+\fancyfoot[C]{\thepage}     
+\lhead{\fancyplain{}{\authorName}}
+\rhead{\fancyplain{}{\titleName}}
+
+
+\newenvironment{myabstract}{\null\vspace{3cm}\begin{center}\bfseries \abstractname \end{center}}{\null}
+
+% Makes side by side figures possible.
+\usepackage{subfigure}
+
+\usepackage{memhfixc}
+
+% Graph drawing
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{snakes}
+\usetikzlibrary{trees}
+
+%Makes sure we don't have to escape every underscore character when we are in text mode!
+\usepackage{underscore}                                                                 
+
+%URL package, makes nice and clean url's
+%Usage \url{www.example.com}
+\usepackage{url}
+\usepackage[bookmarks,colorlinks,plainpages=false,pdfpagelabels]{hyperref}
+
+\usepackage{algorithmic}
+\usepackage{algorithm}                              
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\newtheorem{mydef}{Definition}
+
+\usepackage{microtype}
+
+% \newenvironment{smallverbatim} {\tiny\verbatim}{\endverbatim}
+\newenvironment{smallverbatim} {\scriptsize\verbatim}{\endverbatim}
+
+%Kan bruges som \fixme{blabalabl}. Vises sålænge tex doc er i draft. [draft | final]
+\usepackage[draft]{fixme}
+
+
+
+\floatname{algorithm}{Algoritme}
+
+\usepackage{lastpage} 
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\ud}{\,\text{d}}
+
+%Pretty norms!
+\providecommand{\abs}[1]{\lvert#1\rvert} 
+\providecommand{\norm}[1]{\left \lVert#1 \right \rVert}
+
+%We want pretty phi!
+% \renewcommand{\phi}{\varphi} 
+
+% \usepackage[sc]{mathpazo}
+% \linespread{1.05}         % Palatino needs more leading (space between lines)
+
+\def\CC{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +} }
+
+\usepackage[footnotesize, labelfont=bf, labelsep=endash, hang, margin=5pt]{caption}
+
+% Verbatim envivorment
+\usepackage{verbatim} 
+%Load eps figures
+\usepackage{graphicx}
+
+\usepackage{todonotes}
+
