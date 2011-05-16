@@ -20,7 +20,7 @@
 \paragraph{Part A} % (fold)
 \label{par:part_a}
 We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$.
-Find the shortest cycle, where each vertex is either visited or a vertex with $d_{ij} \leq d$ is visited.
+Find the shortest cycle, where each vertex ($i$) is either visited or a vertex ($j$) with an edge with weight $d_{ij} \leq d$ is visited.
 
 Transforming the above definition into a decision problem would, instead of finding the shortest cycle, be a question of, is there a cycle of some length $l$, which satisfy the above.
 
@@ -36,12 +36,20 @@ Transforming the above definition into a decision problem would, instead of find
 
 \section*{Question 1.2} % (fold)
 \label{sec:question_1_2}
-\fxnote{A 1-tree is a graph with exactly one cycle}
 % Tror måske det kan gøres således:
 %    A - B
 %     \ /
 %      C
 % Den korteste TCP cycle er A (eller B eller C), men det mindste 1-tree indeholder alle knuderne
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/unicycle.pdf}
+	\caption{A graph where the smallest 1-tree is larger than the optimal TCP cycle. $d<1$}
+	\label{unicycle}
+\end{figure}
+In figure \ref{unicycle} we have depicted a set af points $A$, $B$ and $C$, in which the smallest 1-tree, $A-B-C$ is larger than the optimal TCP cycle, which can be one of the three points.
+The $d$ value is in this instance less than one.
 % section question_1_2 (end)
 
 \section*{Question 1.3} % (fold)
