@@ -13,5 +13,8 @@
 *.fls
 *.fmt
 *.watcher_pid
+*.class
+.classpath
+.project
 .*.*
 !*/figures/*.pdf

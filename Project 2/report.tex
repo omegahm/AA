@@ -23,22 +23,24 @@
 We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$. The problem is to find the shortest simple cycle so each vertex ($v_i$) is visited exactly once.
 
 In the following we assume that the couple only wishes to see a monument once. I.e. each node is only visited once, and the cycle is thus a simple cycle. We can define the problem as follows
+\fxnote{``See'' igen, det skal vist ændres til ``visit'' og paraphrases}
 
 \begin{mydef}
 Given a graph $G = (V, E)$ let a shortest cycle consist of the path $p = \{v_0, v_1,v_2,...,v_n, v_0\}$, where $v_i \in V$. The distance between two vertices, $v_i$ and $v_j$ can be calculates as
 \begin{equation} 
 D(v_i,v_j) = 
-\left\{
-\begin{array}{lr} 
+\begin{cases}
  d_{ij} &  \quad d_{ij}>d \\
- 0      &  \text{else}
-\end{array} 
-\right. 
+ 0      &  \text{otherwise}
+\end{cases} 
 \end{equation} 
+
 The vertices in $p$ and their ordering should be chosen so the following function is minimized
+
 \begin{equation}
   D(p[0],p[n])+\sum_{i=0}^{n-1} D(p[i],p[i+1])
 \end{equation}
+
 where $p[i]$ is the $i'th$ vertex in the path $p$.
 \label{def1}
 \end{mydef}
@@ -57,6 +59,7 @@ The corresponding language is
 \paragraph{Part B} % (fold)
 \label{par:part_b}
 We need to show that the TCP problem is NP-complete.  We can show this, by utilizing that we know that the Hamilton cycle is NP-complete. If we can come up with a polynomial time algorithm, that can transform an instance $\alpha$ of the TCP problem into an instance $\beta$ of the Hamilton cycle and yield the same results, we can show that TCP is NP-complete.
+\fxnote{Hvis $d=0$ er problemet blot et \textsc{HAM-CYCLE} problem}
 % paragraph part_b (end)
 % section question_1_1 (end)
 
@@ -80,22 +83,26 @@ The $d$ value is in this instance greater or equal to $1$.
 
 \section*{Question 1.3} % (fold)
 \label{sec:question_1_3}
-
-
+First lets define the function $v(i)$ to be
 \begin{equation}
-  \min \sum_{i=1}^n y_i \left( \sum_{j=i+1}^{n} d_{ij}x_{ij}+d_{ji}x_{ji} \right)
+   v(i) = \{ j \in V\ |\ d_{ij} < d \}
 \end{equation}
 
-subject to
-\begin{equation}
-  y_{i} = 1 \lor (\exists j \in V \setminus i | i \in v(j) \land y_{j} = 1 )
-\end{equation}
-\begin{equation}
-  \sum_{j} x_{ij} + \sum_{j}x_{ji} = 2 \text{ if } y_{i} =1
-\end{equation}
-\begin{equation}
-  y_{i} \in \{0,1\} \quad x_{ij} \in \{0,1\}
-\end{equation}
+In the following \texttt{ILP} definition of the problem, $x_{ij}$ denotes the usage of an edge from $i$ to $j$, however, this does not mean that the edge from $j$ to $i$ is used.
+
+The weight $d_{ij}$ is the same as $d_{ji}$.
+
+\begin{align}
+\min &\qquad \sum_{i=1}^{n-1} \left( \sum_{j=i+1}^{n} d_{ij} \left( x_{ij} + x_{ji} \right) \right) \nonumber\\
+s.t. &\qquad  y_i = 1 \lor (\exists j \in V \setminus i\ |\ i \in v(j) \land y_j = 1 ) \nonumber\\
+     &\qquad \sum_{j} x_{ij} + \sum_{k} x_{ki} = 
+\begin{cases} 
+	2 & \text{if $y_i = 1 \land y_j = 1$} \\ 
+	0 & \text{otherwise}
+\end{cases} \quad  \nonumber\\
+     &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
+\end{align}
+
 
 % section question_1_3 (end)
 
