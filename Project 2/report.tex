@@ -19,10 +19,13 @@
 \label{sec:question_1_1}
 \paragraph{Part A} % (fold)
 \label{par:part_a}
-We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$.
-Find the shortest cycle, where each vertex is either visited or a vertex with $d_{ij} \leq d$ is visited.
+
+We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$. 
+
+Find the shortest cycle starting and ending in a node $v_0 \in V$, where each vertex $v \in V$ is `visited'. Let the cycle consist of the path $p = \{v_0, v_1,v_2,...,v_n, v_0\}$, then the edge, $e_{ij}$, between two adjacent vertices $v_i$ $v_j$ in the path must meet $d_{ij}\leq d$. 
 
 Transforming the above definition into a decision problem would, instead of finding the shortest cycle, be a question of, is there a cycle of some length $l$, which satisfy the above.
+
 
 \fxnote{Give the corrosponding language?}
 
