@@ -114,7 +114,7 @@ Likewise, $y_i$ denotes the usage of vertex $i$.
 \min &\qquad \sum_{(i,j) \in V^2} d_{ij} x_{ij} \nonumber\\
 s.t. &\qquad \sum_{i \in v(j)} y_i \geq 1 \quad \forall j \in V \nonumber\\
 	 &\qquad \sum_{(i,j) \in Z^2} x_{ij} \leq \sum_{i \in Z} y_i \quad \emptyset \subset Z \subset V \nonumber\\
-	 &\qquad y_i \sum_{j \in V } x_{ij} = 2 y_i \quad \forall i \in V \nonumber\\
+	 &\qquad \sum_{j \in V } x_{ij} - 2 y_i = 0 \quad \forall i \in V \nonumber\\
 	 &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
 \end{align}
 

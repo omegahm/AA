@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 
+import lpsolve.LpSolve;
+
 /**
  * A branch-and-bound solver for the Traveling Couple Problem. A problem is
  * represented as an instance of the TCPProblem and an optimal TCP-tour is found
@@ -157,22 +159,132 @@ public class BnB {
 	}
 
 	/** Returns a lower bound for the path corresponding to n. */
-	private double lowerbound(BnBNode n) {
+	private double lowerbound(BnBNode bnbn) {
+		try {
+			int n = problem.vertices.length;
+			int numOfVar = n + (n*(n-1))/2;
+			
+			LpSolve solver = LpSolve.makeLp(0, numOfVar);
+			
+			String value = "";
+			for(int i = 0; i < n; i++) {
+				value += "0 ";
+			}
+			
+			for(int i = 0; i < problem.edges.length; i++) {
+				for(int j = i+1; j <= problem.edges[i].length; j++) {
+					value += problem.edges[i][j-1].length + " ";
+				}
+			}
 		
-		double lb = 0.0;
-		BnBNode tmp = n;
-		int v = tmp.edge.v0;
-		int u = tmp.edge.v0;
+			solver.strSetObjFn(value.trim());
+			
+			for(int i = 0; i < n; i++) {
+				value = "";
+				int vics[] = problem.vicinities[i];
+				for(int j = 0; j < n; j++) {
+					boolean yes = false;
+					for(int v : vics) {
+						yes = yes || v == j;
+					}
+					
+					if(yes) {
+						value += "1 ";
+					} else {
+						value += "0 ";
+					}	
+				}
+				
+				for(int a = 0; a < (n*(n-1))/2; a++) {
+					value += "0 ";
+				}
+				
+				solver.strAddConstraint(value.trim(), LpSolve.GE, 1.0);
+			}
+			
+			int hack[][] = new int[n+1][n+1];
+			int k = n+1;
+			
+			for(int i = 1; i <= n - 1; i++) {
+				for(int j = i+1; j <= n; j++) {
+					hack[i][j] = k;
+					hack[j][i] = k;
+					k++;
+				}
+			}
+			
+						
+			double data[] = new double[numOfVar];
+			for(int i = 1; i <= n; i++) {
+				Arrays.fill(data, 0.0);
+				value = "";
+				for(int j = 0; j < n; j++) {
+					data[j] = 0.0;
+				}
+				
+				for(int j = 1; j <= n; j++) {
+					if(i != j) {
+						data[hack[i][j]-1] = 1;
+						data[hack[j][i]-1] = 1;
+					}
+				}
+				
+				data[i-1] = -2.0;
+				
+				for(int j = 0; j < data.length; j++) {
+					value += "" + data[j] + " ";
+				}
+				
+				solver.strAddConstraint(value.trim(), LpSolve.EQ, 0.0);
+			}
+			
+			BnBNode tmp = bnbn;
+			while(tmp != null) {
+				value = "";
+				Arrays.fill(data, 0.0);
+				data[bnbn.edge.v0] = 1.0;
+				for(int j = 0; j < data.length; j++) {
+					value += "" + data[j] + " ";
+				}
+				
+				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				
+				value = "";
+				Arrays.fill(data, 0.0);
+				data[bnbn.edge.v1] = 1.0;
+				for(int j = 0; j < data.length; j++) {
+					value += "" + data[j] + " ";
+				}
+				
+				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				
+				value = "";
+				Arrays.fill(data, 0.0);
+				data[hack[bnbn.edge.v0][bnbn.edge.v1]] = 1.0;
+				for(int j = 0; j < data.length; j++) {
+					value += "" + data[j] + " ";
+				}
+				
+				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				
+				tmp = tmp.parent;
+			}
+			
+			solver.setMinim();
+			solver.writeLp("here.lp");
+			solver.setVerbose(LpSolve.CRASH_NOTHING);
+			
+			
+			solver.solve();
+			
+			return solver.getObjective();
 		
-		while (tmp != null) {
-			lb += tmp.edge.length;
-			u = tmp.edge.v0;
-			tmp = tmp.parent;
+		} catch(Exception e) {
+			System.out.println(e);
+			return 0.0;
 		}
-		
-		return lb + problem.edges[v][u].length;
-
 	}
+	int globali = 0;
 
 	/** Return an array with all the vertices visited in the specified path */
 	private int[] getVerticesInNode(BnBNode n) {
@@ -200,7 +312,7 @@ public class BnB {
 	}
 
 	public static void main(String[] args) {
-		TCPProblem problem = new Graph1();
+		TCPProblem problem = new Graph2();
 		//System.out.println(problem);
 		BnB solver = new BnB(problem);
 		int[] optTour = solver.getOptimalSolution();
