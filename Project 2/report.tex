@@ -88,49 +88,16 @@ First lets define the function $v(i)$ to be
    v(i) = \{ j \in V\ |\ d_{ij} < d \}
 \end{equation}
 
-% In the following \texttt{ILP} definition of the problem, $x_{ij}$ denotes the usage of an edge from $i$ to $j$, however, this does not mean that the edge from $j$ to $i$ is used.
-% 
-% The weight $d_{ij}$ is the same as $d_{ji}$.
-% 
-% \begin{align}
-% \min &\qquad \sum_{i=1}^{n-1} \left( \sum_{j=i+1}^{n} d_{ij} \left( x_{ij} + x_{ji} \right) \right) \nonumber\\
-% s.t. &\qquad  y_i = 1 \quad \text{if } \forall j \in V \setminus i\ |\ i \notin v(j) \nonumber\\
-%      &\qquad \sum_{j=1}^{n} y_j \left( x_{ij} + x_{ji} \right) = 2 \quad \text{if $y_i = 1 \land \sum_{j=1}^n y_j \geq 2$}  \nonumber\\
-%      &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
-% \end{align}
-
 In the following \texttt{ILP} definition of the problem, $x_{ij}$ denotes the usage of an edge from $i$ to $j$.
 Likewise, $y_i$ denotes the usage of vertex $i$.
 \begin{align}
-\min &\qquad \sum_{(i,j) \in V \times V} d_{ij} x_{ij} \nonumber\\
-s.t. &\qquad y_i = 1 \quad \text{if } \forall j \in V \setminus i\ |\ i \notin v(j) \quad \forall i \in V \nonumber\\
-     &\qquad \sum_{j \in V} x_{ij} \geq y_i \quad \text{if } \sum_{i \in V} y_i \geq 2 \quad \forall i \in V \nonumber\\
-     &\qquad \sum_{(i,j) \in V \times V} x_{ij} \geq \sum_{i \in V} y_i - 1 \nonumber\\
+\min &\qquad \sum_{(i,j) \in V^2} d_{ij} x_{ij} \nonumber\\
+s.t. &\qquad \sum_{i \in v(j)} y_i \geq 1 \quad \forall j \in V \nonumber\\
+	 &\qquad \sum_{(i,j) \in Z^2} x_{ij} \leq \sum_{i \in Z} y_i \quad \emptyset \subset Z \subset V \nonumber\\
+	 &\qquad y_i \sum_{j \in V } x_{ij} = 2 y_i \quad \forall i \in V \nonumber\\
 	 &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
 \end{align}
 
-\fxnote{Tekstforklaring på de 3 led i \TeX-fil}
-% Første led:
-% 	Knuden er med, hvis der for alle $j$ i V gælder at $i$ ikke er i nærheden af nogen af dem
-
-% Andet led:
-% 	Hvis der er mere end to knuder "aktive" skal der være mindst 1 kant gående fra de "aktive" knuder til andre knuder (etv. andre aktive)
-% 	Denne forhindre at der kommer hop i knuderne, da alle "aktive" knuder nu vil have mindst en kant
-
-% Tredje led:
-% 	Antallet af "aktive" kanter er større end eller lig med antallet af "aktive" knuder minus 1
-% 	Denne sørger for at grafen er sammenhængende
-% 
-% Hmmm....
-% Nederen, troede ellers lige at den var der.
-% Følgende er dog modeksempel for at den ikke bliver sammenhængende
-%     A
-%   /   \
-%  B --- C
-% 
-%  D --- E
-%   \   /
-%     F
 % section question_1_3 (end)
 
 \section*{Question 1.4} % (fold)
