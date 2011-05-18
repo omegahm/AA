@@ -52,36 +52,44 @@ where $p[i]$ is the $i'th$ vertex in the path $p$.
 \label{def1}
 \end{mydef}
 
-Transforming the above definition into a decision problem yields: Given a graph $G$ and a number $l$ is there a cycle of length at most $l$, which satisfy the above.
+Transforming the above definition into a decision problem yields: Given a graph $G$, view distance $d$ and a number $l$ is there a cycle of length at most $l$, which satisfy the above.
 
 The corresponding language is
 
 \begin{align*}
-   \text{TCP_cycle} = \{ \langle G, l \rangle : &G = (V,E) \text{ complete undirected graph},\\ 
-                                               &l = \text{Length of tour}  \}
+   \text{TCP_cycle} = \{ \langle G, d, l \rangle : &G = (V,E) \text{ complete undirected graph},\\ 
+                                                   &d = \text{Viewing distance}  \\
+                                                   &l = \text{Length of tour}  \}
 \end{align*}
 
 % paragraph part_a (end)
 
 \paragraph{Part B} % (fold)
 \label{par:part_b}
-We need to show that the TCP problem is NP-complete. In order tho show that the TCP problem is NP-complete, we need to show that $TCP \in NP$ and to show that it is complete we show that $HAM-CYCLE \leq TCP$.
+We need to show that the TCP problem is NP-complete. In order tho show that the TCP problem is NP-complete, we need to show that $TCP \in NP$ and that it is NP-complete. 
 
-We can show this, by utilizing that we know that the Hamilton cycle is NP-complete. If we can come up with a polynomial time algorithm, that can transform an instance $\alpha$ of the TCP problem into an instance $\beta$ of the Hamilton cycle and yield the same results, we can show that TCP is NP-complete.
+$TCP$ is in NP if we can come up with a polynomial time algorithm that given a cycle and a graph, can answer yes if the cycle is indeed a TCP cycle otherwise no. Such an algorithm could be. Given a graph $G=(V,E)$ and a cycle $P$, verify that each vertex $v \in V$ is visible by at least one vertex in $p \in P$. This verification could indeed be implemented to run in polynomial time, yielding $TCP \in NP$.
 
-\fxnote{Hvis $d=0$ er problemet blot et \textsc{HAM-CYCLE} problem}
-\fxnote{Hvis $d>0$ er problemet ...}
+$TCP$ is NP-complete if we can show $HAM-CYCLE \leq TCP$. Thus if we can use $TCP$ to find a hamilton circle, we have shown that $TCP$ is NP-complete. Let $G = (V, E)$ be an instance of the Hamilton cycle problem. We can transform this problem into a $TCP$ problem, by the following transformation. Let $G' = (V, E')$ be a fully connected graph, where $E' = \{(u,v) : u,v \in V \wedge u \neq v\}$, and each edge, $(u',v') \in E'$, has a distance as follows
+
+\begin{equation} 
+d(u',v')  = 
+\left\{
+\begin{array}{rl} 
+  1 & (u',v') \in E\\
+  0 & (u',v') \notin E\\ 
+\end{array} 
+\right. \qquad \forall (u',v') \in E'
+\end{equation} 
+Now run the $\text{TCP_cycle}$ algorithm on $G'$ and let $d=0$ and $l = |V|$. Now $G$ has a Hamilton cycle if and only if the $\text{TCP_cycle}$ returns true.
+
+The time complexity of the $TCP$ problem is at least as hard as the $HAM-CYCLE$ problem (stated differently a solution to $HAM-CYCLE$ is at least as easy as a solution to $TCP$). We thus assume that no polynomial time algorithm exists for the problem.
 
 % paragraph part_b (end)
 % section question_1_1 (end)
 
 \section*{Question 1.2} % (fold)
 \label{sec:question_1_2}
-% Tror måske det kan gøres således:
-%    A - B
-%     \ /
-%      C
-% Den korteste TCP cycle er A (eller B eller C), men det mindste 1-tree indeholder alle knuderne
 
 \begin{figure}
 	\centering
