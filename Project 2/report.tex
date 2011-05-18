@@ -20,13 +20,16 @@
 \paragraph{Part A} % (fold)
 \label{par:part_a}
 
-We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$. The problem is to find the shortest simple cycle so each vertex ($v_i$) is visited exactly once.
+We are given a complete undirected graph $G = (V,E)$, with non-negative weights $d_{ij}$, and a viewing distance $d$. The problem is to find the shortest simple cycle so each vertex ($v_i$) is either seen or visited.
 
-In the following we assume that the couple only wishes to see a monument once. I.e. each node is only visited once, and the cycle is thus a simple cycle. We can define the problem as follows
-\fxnote{``See'' igen, det skal vist ændres til ``visit'' og paraphrases}
+In the following we assume that the couple only wishes to visit a monument once, but possible see it multiple times. I.e. each node is visited at most once, and the cycle is thus a simple cycle. We can define the problem as follows
 
 \begin{mydef}
-Given a graph $G = (V, E)$ let a shortest cycle consist of the path $p = \{v_0, v_1,v_2,...,v_n, v_0\}$, where $v_i \in V$. The distance between two vertices, $v_i$ and $v_j$ can be calculates as
+Given a graph $G = (V, E)$ let a shortest cycle consist of the path $p = \{v_0, v_1,v_2,...,v_n, v_0\}$, where $v_i \in V$. Let 
+\begin{equation}
+  v(i) = \{j  \in V | d_{ij} \leq d\}
+\end{equation}
+be the set of vertices in the vicinity of vertex $i$. Let the distance between two vertices, $v_i$ and $v_j$, be calculated as
 \begin{equation} 
 D(v_i,v_j) = 
 \begin{cases}
@@ -35,8 +38,12 @@ D(v_i,v_j) =
 \end{cases} 
 \end{equation} 
 
-The vertices in $p$ and their ordering should be chosen so the following function is minimized
+The path $p$ should be chosen so 
+\begin{equation}
+  \forall v \in V : \exists v_i \in p : v \in v(v_i) 
+\end{equation}        
 
+The vertices in $p$ and their ordering should be chosen so the following function is minimized
 \begin{equation}
   D(p[0],p[n])+\sum_{i=0}^{n-1} D(p[i],p[i+1])
 \end{equation}
@@ -58,8 +65,13 @@ The corresponding language is
 
 \paragraph{Part B} % (fold)
 \label{par:part_b}
-We need to show that the TCP problem is NP-complete.  We can show this, by utilizing that we know that the Hamilton cycle is NP-complete. If we can come up with a polynomial time algorithm, that can transform an instance $\alpha$ of the TCP problem into an instance $\beta$ of the Hamilton cycle and yield the same results, we can show that TCP is NP-complete.
+We need to show that the TCP problem is NP-complete. In order tho show that the TCP problem is NP-complete, we need to show that $TCP \in NP$ and to show that it is complete we show that $HAM-CYCLE \leq TCP$.
+
+We can show this, by utilizing that we know that the Hamilton cycle is NP-complete. If we can come up with a polynomial time algorithm, that can transform an instance $\alpha$ of the TCP problem into an instance $\beta$ of the Hamilton cycle and yield the same results, we can show that TCP is NP-complete.
+
 \fxnote{Hvis $d=0$ er problemet blot et \textsc{HAM-CYCLE} problem}
+\fxnote{Hvis $d>0$ er problemet ...}
+
 % paragraph part_b (end)
 % section question_1_1 (end)
 
@@ -108,6 +120,9 @@ s.t. &\qquad y_i = 1 \quad \text{if } \forall j \in V \setminus i\ |\ i \notin v
      &\qquad \sum_{(i,j) \in V \times V} x_{ij} \geq \sum_{i \in V} y_i - 1 \nonumber\\
 	 &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
 \end{align}
+
+
+\fxnote{Hvis vi besøger en vertex vi har set før, så ser vi faktisk monumentet 2 gange. Dette strider imod den initielle antagelse. Måske vi skal fjerne den, således et monument kan besøges flere gange?}
 
 \fxnote{Tekstforklaring på de 3 led i \TeX-fil}
 % Første led:
