@@ -41,8 +41,8 @@ We can reformulate the problem, to the following
 \begin{equation}
 	\text{max} \sum_{e=(s,u) \in E} x_e \quad \text{s.t.} \quad \left\{
 	\begin{array}{l l}
-		\forall v \in V\backslash\{s,t\} & \quad \sum_{e=(u,v) \in E} x_e = \sum_{e=(v,w) \in E} x_e \\
-		\forall e \in E & \quad 0 < x_e \leq c_e
+		\sum_{e=(u,v) \in E} x_e = \sum_{e=(v,w) \in E} x_e & \forall v \in V\backslash\{s,t\}\\
+		0 < x_e \leq c_e & \forall e \in E
 	\end{array} \right. \label{LP}
 \end{equation}
 where $G = (V, E)$ is a graph, and $s$ and $t$ are source and sink respectively.
@@ -72,7 +72,7 @@ With capacity constrains on the intersections, one would assume that this would 
 However, in order to solve this, all we need to do is remove all outgoing edges from a vertex $u$, and adding a new vertex $v$, with all the removed edges from vertex $u$.
 We then add a single edge $(u,v)$ with $c(u, v) = c(u)$.
 
-A illustration of this approach can be seen on figure \ref{fig1}.
+An illustration of this approach can be seen on figure \ref{fig1}.
 
 \begin{figure}[ht]
 \centering
@@ -89,8 +89,8 @@ A illustration of this approach can be seen on figure \ref{fig1}.
 
 \section*{Question 2.2} % (fold)
 \label{sec:question_2_2}
-To accommodate for the capacity constrains on the vertices in \eqref{LP}, we need a constraint on the them.
-This can be formulated as the sum of the weights of ingoing edges must not be greater than the capacity of the vertex.
+To accommodate for the capacity constrains on the vertices in \eqref{LP}, we need a constraint on them.
+This constraint be formulated as the sum of the weights of ingoing edges must not be greater than the capacity of the vertex.
 
 The following constraint should be added to \eqref{LP}
 \begin{equation}
@@ -100,7 +100,7 @@ The following constraint should be added to \eqref{LP}
 
 \section*{Question 2.3} % (fold)
 \label{sec:question_2_3}
-Modifying the graph has the advantage that ...
+One advantage of modifying the graph is that the Ford-Fulkerson method can still be applied. This is not the case when modifying the LP-formulation.
 % section question_2_3 (end)
 
 \section*{Question 2.4} % (fold)
