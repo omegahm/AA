@@ -32,7 +32,7 @@ public class BnB {
 					public int compare(BnBNode n1, BnBNode n2) {
 						int comp = Double.compare(n1.lowerBound, n2.lowerBound);
 						if (comp == 0)
-							return 1;
+							return n1.hashCode()-n2.hashCode();
 						else
 							return comp;
 					}
@@ -212,8 +212,7 @@ public class BnB {
 					k++;
 				}
 			}
-			
-						
+					
 			double data[] = new double[numOfVar];
 			for(int i = 1; i <= n; i++) {
 				Arrays.fill(data, 0.0);
@@ -242,30 +241,27 @@ public class BnB {
 			while(tmp != null) {
 				value = "";
 				Arrays.fill(data, 0.0);
-				data[bnbn.edge.v0] = 1.0;
+				data[tmp.edge.v0] = 1.0;
 				for(int j = 0; j < data.length; j++) {
 					value += "" + data[j] + " ";
 				}
-				
-				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				solver.strAddConstraint(value.trim(), LpSolve.GE, 1.0);
 				
 				value = "";
 				Arrays.fill(data, 0.0);
-				data[bnbn.edge.v1] = 1.0;
+				data[tmp.edge.v1] = 1.0;
 				for(int j = 0; j < data.length; j++) {
 					value += "" + data[j] + " ";
 				}
-				
-				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				solver.strAddConstraint(value.trim(), LpSolve.GE, 1.0);
 				
 				value = "";
 				Arrays.fill(data, 0.0);
-				data[hack[bnbn.edge.v0][bnbn.edge.v1]] = 1.0;
+				data[hack[tmp.edge.v0][tmp.edge.v1]] = 1.0;
 				for(int j = 0; j < data.length; j++) {
 					value += "" + data[j] + " ";
 				}
-				
-				solver.strAddConstraint(value, LpSolve.GE, 1.0);
+				solver.strAddConstraint(value.trim(), LpSolve.GE, 1.0);
 				
 				tmp = tmp.parent;
 			}
@@ -274,11 +270,26 @@ public class BnB {
 			solver.writeLp("here.lp");
 			solver.setVerbose(LpSolve.CRASH_NOTHING);
 			
+			/*for(int i = 1; i <= numOfVar; i++) {
+				solver.setUpbo(i, 1.0);
+				solver.setLowbo(i, 0.0);
+			}*/
 			
-			solver.solve();
+			if(LpSolve.OPTIMAL == solver.solve()) {
+				//System.out.println("OPTIMAL");
+			}
 			
-			return solver.getObjective();
+			// print the solution
+			if(false) {
+				System.out.println("Value of objective function: " + solver.getObjective());
+				double[] var = solver.getPtrVariables();
+				for (int i = 0; i < var.length; i++) {
+					System.out.println("Value of var[" + (i+1) + "] = " + var[i]);
+				}
+				System.out.println();
+			}
 		
+			return solver.getObjective();
 		} catch(Exception e) {
 			System.out.println(e);
 			return 0.0;
@@ -297,7 +308,7 @@ public class BnB {
 		int[] ret = new int[c];
 
 		c = 0;
-		p = optimal;
+		p = n;
 		ret[c++] = p.edge.v1;
 		while (p != null) {
 			ret[c++] = p.edge.v0;
@@ -312,7 +323,7 @@ public class BnB {
 	}
 
 	public static void main(String[] args) {
-		TCPProblem problem = new Graph2();
+		TCPProblem problem = new Graph1();
 		//System.out.println(problem);
 		BnB solver = new BnB(problem);
 		int[] optTour = solver.getOptimalSolution();

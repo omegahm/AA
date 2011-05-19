@@ -19,12 +19,12 @@ public class Graph1 extends TCPProblem{
 
 	private final static Point2D.Double[] points = {
 		new Point2D.Double(0,1),
-		new Point2D.Double( cos(0*2*PI/6)*0.2 , sin(0*2*PI/6)*0.2 + 1 ),
-		new Point2D.Double( cos(1*2*PI/6)*0.2 , sin(1*2*PI/6)*0.2 + 1 ),
-		new Point2D.Double( cos(2*2*PI/6)*0.2 , sin(2*2*PI/6)*0.2 + 1 ),
-		new Point2D.Double( cos(3*2*PI/6)*0.2 , sin(3*2*PI/6)*0.2 + 1 ),
-		new Point2D.Double( cos(4*2*PI/6)*0.2 , sin(4*2*PI/6)*0.2 + 1 ),
-		new Point2D.Double( cos(5*2*PI/6)*0.2 , sin(5*2*PI/6)*0.2 + 1 ),
+		new Point2D.Double( cos(0*2*PI/6)*0.2 , sin(0*2*PI/6)*0.2 + 1 ), // 0,2; 1
+		new Point2D.Double( cos(1*2*PI/6)*0.2 , sin(1*2*PI/6)*0.2 + 1 ), // 0,1; 1.17320508
+		new Point2D.Double( cos(2*2*PI/6)*0.2 , sin(2*2*PI/6)*0.2 + 1 ), //-0,1; 1.17320508 
+		new Point2D.Double( cos(3*2*PI/6)*0.2 , sin(3*2*PI/6)*0.2 + 1 ), //-0,2; 1 
+		new Point2D.Double( cos(4*2*PI/6)*0.2 , sin(4*2*PI/6)*0.2 + 1 ), //-0,1; 0.826794919
+		new Point2D.Double( cos(5*2*PI/6)*0.2 , sin(5*2*PI/6)*0.2 + 1 ), // 0,1; 0.826794919
 		
 		new Point2D.Double( cos( 7*PI/6) , sin( 7*PI/6) ),
 		new Point2D.Double( cos(11*PI/6) , sin(11*PI/6) )
