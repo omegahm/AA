@@ -323,7 +323,7 @@ public class BnB {
 	}
 
 	public static void main(String[] args) {
-		TCPProblem problem = new Graph1();
+		TCPProblem problem = new Graph3();
 		//System.out.println(problem);
 		BnB solver = new BnB(problem);
 		int[] optTour = solver.getOptimalSolution();
