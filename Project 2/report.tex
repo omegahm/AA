@@ -111,28 +111,28 @@ First lets define the function $v(i)$ to be
 In the following \texttt{ILP} definition of the problem, $x_{ij}$ denotes the usage of an edge from $i$ to $j$.
 Likewise, $y_i$ denotes the usage of vertex $i$.
 \begin{align}
-\min &\qquad \sum_{(i,j) \in V^2} d_{ij} x_{ij} \nonumber\\
-s.t. &\qquad \sum_{i \in v(j)} y_i \geq 1 \quad \forall j \in V \nonumber\\
-	 &\qquad \sum_{(i,j) \in Z^2} x_{ij} \leq \sum_{i \in Z} y_i \quad \emptyset \subset Z \subset V \nonumber\\
-	 &\qquad \sum_{j \in V } x_{ij} - 2 y_i = 0 \quad \forall i \in V \nonumber\\
-	 &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\} \nonumber
+\min &\qquad \sum_{(i,j) \in V^2} d_{ij} x_{ij} \\
+s.t. &\qquad \sum_{i \in v(j)} y_i \geq 1 \quad \forall j \in V \\
+	 &\qquad \sum_{(i,j) \in Z^2} x_{ij} \leq \sum_{i \in Z} y_i \quad \emptyset \subset Z \subset V \label{st1}\\
+	 &\qquad \sum_{j \in V } x_{ij} - 2 y_i = 0 \quad \forall i \in V \\
+	 &\qquad y_i \in \{0,1\}, \quad x_{ij} \in \{0,1\}  \label{st2}
 \end{align}
 
 % section question_1_3 (end)
 
 \section*{Question 1.4} % (fold)
 \label{sec:question_1_4}
-
+In order for the ILP formulation to become a lower bound, we can remove the constraint (\ref{st1}) and relax the constraint (\ref{st2}) so $y_i \geq 0$ and $x_{ij} \geq 0$.
 % section question_1_4 (end)
 
 \section*{Question 2.1} % (fold)
 \label{sec:question_2_1}
-
+We have implemented the lower-bound method by removing and relaxed the constraints as explained in question 1.4. For details of the implementation see attached file \texttt{BnB.java}. The implementation reports the correct lower bound, but is having problems finding the correct vertices in the TCP cycle. We have spent more than 40 hours on the programming assignment, and unfortunately we haven't been able to solve this issue. We believe our constraints are correct.
 % section question_2_1 (end)
 
 \section*{Question 2.2} % (fold)
 \label{sec:question_2_2}
-
+The optimal TCP cycle of graph1 is $\{3,5,7,8,3\}$ and it has length $\approx 4.9$. The number of nodes 26585. The optimal TCP cycle of graph2 is $\{2,3,5,4,2\}$, and it has length $4$. The number of nodes used is 57. The optimal TCP cycle of graph3 is $\{0,1,3,5,7,6,4,2,0\}$ and has length $8$. The number of nodes used is 28.
 % section question_2_2 (end)
 
 %\section*{Question 2.3} % (fold)
